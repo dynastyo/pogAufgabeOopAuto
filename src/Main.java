@@ -1,5 +1,5 @@
 import java.util.Scanner;
-// main2
+// main
 public class Main {
     static  Database data = new Database();
     static Scanner sc = new Scanner(System.in);
