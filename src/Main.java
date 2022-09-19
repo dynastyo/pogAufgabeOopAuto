@@ -1,5 +1,5 @@
 import java.util.Scanner;
-// githubtest
+// githubtest2
 public class Main {
     static  Database data = new Database();
     static Scanner sc = new Scanner(System.in);
