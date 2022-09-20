@@ -20,6 +20,7 @@ public class UserInterface {
             case "2" -> menuAusgabeAutoliste();
             case "3" -> menuSearchCar();
             case "4" -> menuDeleteCar();
+            case "5" -> data.carparkSort();
             default -> {
                 System.out.println("Falsche Eingabe, neuer Versuch!");
                 menuMain();
@@ -41,24 +42,23 @@ public class UserInterface {
     }
     public static void menuAusgabeAutoliste(){
         Auto[] usedCars = data.rueckgabeAutoliste();
-        for (int i = 0; i < usedCars.length; i++) {
-            System.out.println("------------");
-            System.out.println("ID " + usedCars[i].getId());
-            System.out.println("Brand " + usedCars[i].getBrand());
+        for (Auto usedCar : usedCars) {
+            System.out.println(usedCar.toString());
         }
+        ausgabeBeendet();
     }
     public static void menuSearchCar(){
         System.out.println("Suchbegriff Eingeben");
         String suchbegriff = UserInterface.sc.next().toLowerCase();
         data.sucheAuto(suchbegriff);
-        UserInterface.ausgabeBeendet();
+        ausgabeBeendet();
     }
 
     public static void menuDeleteCar(){
         System.out.println("Welches Auto möchtest du löschen? ID Eingeben!");
         String idToDelete = UserInterface.sc.next().toLowerCase();
         data.deleteCar(idToDelete);
-        UserInterface.ausgabeBeendet();
+        ausgabeBeendet();
     }
 
     public static void ausgabeBeendet(){
@@ -68,5 +68,7 @@ public class UserInterface {
         menuMain();
 
     }
+
+
 }
 

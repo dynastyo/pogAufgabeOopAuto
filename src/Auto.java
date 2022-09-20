@@ -76,5 +76,8 @@ private String brand, id;
 //    public void setUsed(boolean used) {
 //        this.used = used;
 //    }
-
+    @Override
+    public String toString() {
+        return this.id + " + " + this.brand + " peter";
+    }
 }

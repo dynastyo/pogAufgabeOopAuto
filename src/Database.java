@@ -1,9 +1,9 @@
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Random;
 
 public class Database {
     private final Auto[] carpark;
-    private int size = -1;
 
     // Array für 50 Auto Objekte
     public Database()  {
@@ -20,19 +20,18 @@ public class Database {
             }
         }
         Auto[] usedCarpark = new Auto[usedCarparkLength];
-        System.arraycopy(carpark,0, usedCarpark,0,size - 1);
+        System.arraycopy(carpark,0, usedCarpark,0,usedCarparkLength);
         return usedCarpark;
     }
 
     // Hinzufügen eines Autos
     public void hinzufuegenAuto(Auto newCar) {
-        carpark[++size] = newCar;
-//        for (int i = 0; i < 50; i++) {
-//            if (carpark[i] == null) {
-//                carpark[i] = newCar;
-//                break;
-//            }
-//        }
+        for (int i = 0; i < 50; i++) {
+            if (carpark[i] == null) {
+                carpark[i] = newCar;
+                break;
+            }
+        }
     }
 
     public void deleteCar(String idToDelete){
@@ -54,7 +53,6 @@ public class Database {
                 }
             }
         }
-        size--;
     }
 
     // Prüfen, ob die id beim erstellen schon vergeben ist
@@ -87,12 +85,20 @@ public class Database {
         System.out.println("Brand " + carpark[arraySpot].getBrand());
     }
 
-
+    public void carparkSort(){
+        Arrays.sort(carpark, new Comparator<Auto>() {
+            @Override
+            public int compare(Auto o1, Auto o2) {
+                return o1.getBrand().compareTo(o2.getBrand());
+            }
+        });
+        UserInterface.menuMain();
+    }
 
     public void dummyDaten(){
         String brands[] = new String[]{ "BMW","Audi", "VW", "Opel", "Dacia", "Suzuki" };
         Random rand = new Random();
-        for (int i = 0; i < 25; i++) {
+        for (int i = 0; i < 50; i++) {
             int brand = rand.nextInt(brands.length -1);
             carpark[i] = new Auto(String.valueOf(i), brands[brand]);
         }
