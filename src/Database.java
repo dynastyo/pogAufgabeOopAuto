@@ -11,13 +11,6 @@ public class Database {
         carpark = new Auto[50];
     }
 
-    // Rückgabe aller Datensätze
-    public Auto[] returnUsedCars() {
-        Auto[] usedCarpark = new Auto[amountCars];
-        System.arraycopy(carpark, 0, usedCarpark, 0, amountCars);
-        return usedCarpark;
-    }
-
     // Hinzufügen eines Autos
     public boolean carparkFull() {
         return amountCars >= 50;
@@ -35,9 +28,22 @@ public class Database {
         amountCars++;
     }
 
-    public void deleteCar(String idToDelete) {
+    public Auto[] returnUsedCars() {
+        Auto[] usedCarpark = new Auto[amountCars];
+        System.arraycopy(carpark, 0, usedCarpark, 0, amountCars);
+        return usedCarpark;
+    }
 
-        // find the Spot in carpark Array of the Car to delete and replace it with the last filled spot
+    // suche nach einem String in den Auto Objekten
+    public void sucheAuto(String suchbegriff) {
+        for (int i = 0; i < amountCars; i++) {
+            if (suchbegriff.equals(carpark[i].getBrand().toLowerCase()) || suchbegriff.equals(carpark[i].getId().toLowerCase())) {
+
+            }
+        }
+    }
+
+    public void deleteCar(String idToDelete) {
         for (int i = 0; i < amountCars; i++) {
             if (carpark[i] != null) {
                 if (idToDelete.equals(carpark[i].getId().toLowerCase())) {
@@ -47,22 +53,6 @@ public class Database {
                 }
             }
         }
-    }
-
-
-    // suche nach einem String in den Auto Objekten
-    public void sucheAuto(String suchbegriff) {
-        for (int i = 0; i < amountCars; i++) {
-            if (suchbegriff.equals(carpark[i].getBrand().toLowerCase()) || suchbegriff.equals(carpark[i].getId().toLowerCase())) {
-                printCar(i);
-            }
-        }
-    }
-
-    public void printCar(int arraySpot) {
-        System.out.println("------------");
-        System.out.println("ID " + carpark[arraySpot].getId());
-        System.out.println("Brand " + carpark[arraySpot].getBrand());
     }
 
     public void carparkSort() {

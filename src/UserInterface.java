@@ -22,7 +22,7 @@ public class UserInterface {
             case "2" -> menuPrintCarpark();
             case "3" -> menuSearchCar();
             case "4" -> menuDeleteCar();
-            case "5" -> carParkSortMenu();
+            case "5" -> menuSortCarpark();
             default -> {
                 System.out.println("Wrong input, try again!");
                 menuMain();
@@ -46,7 +46,6 @@ public class UserInterface {
         } else {
             backToMenu("Carpark is Full!");
         }
-
     }
 
     public static void menuPrintCarpark() {
@@ -71,7 +70,7 @@ public class UserInterface {
         backToMenu("Car deleted!");
     }
 
-    public static void carParkSortMenu() {
+    public static void menuSortCarpark() {
         data.carparkSort();
         backToMenu("Cars sorted by brand!");
     }
