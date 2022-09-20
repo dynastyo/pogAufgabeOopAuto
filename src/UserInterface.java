@@ -1,74 +1,87 @@
 import java.util.Scanner;
-// githubtest2
+
 public class UserInterface {
-    static  Database data = new Database();
+    static Database data = new Database();
     static Scanner sc = new Scanner(System.in);
+
     public static void main(String[] args) {
         data.dummyDaten();
         menuMain();
     }
 
-    public static void menuMain(){
-        System.out.println("1 - Neues Fahrzeug hinzufuegen");
-        System.out.println("2 - alle Fahrzeuge ausgeben");
-        System.out.println("3 - suche nach Datensatz");
-        System.out.println("4 - Lösche einen Datensatz");
-        System.out.println("Ihre Auswahl?");
+    public static void menuMain() {
+        System.out.println("1 - Add car to carpark");
+        System.out.println("2 - list all cars");
+        System.out.println("3 - search for a car");
+        System.out.println("4 - delete a car");
+        System.out.println("5 - sort cars by brand");
+        System.out.println("your choice?");
         String auswahl = sc.next();
         switch (auswahl) {
             case "1" -> menuAddCar();
-            case "2" -> menuAusgabeAutoliste();
+            case "2" -> menuPrintCarpark();
             case "3" -> menuSearchCar();
             case "4" -> menuDeleteCar();
-            case "5" -> data.carparkSort();
+            case "5" -> carParkSortMenu();
             default -> {
-                System.out.println("Falsche Eingabe, neuer Versuch!");
+                System.out.println("Wrong input, try again!");
                 menuMain();
             }
         }
     }
-    public static void menuAddCar(){
-            System.out.println("id eingeben");
-             String id = sc.next();
-             if (!data.idFree(id)){
-                 System.out.println("ID schon vergeben");
-                 menuAddCar();
-             }
-        System.out.println("hersteller eingeben");
-        String brand = sc.next();
-        Auto newCar = new Auto(id, brand);
-        data.hinzufuegenAuto(newCar);
-        menuMain();
+
+    public static void menuAddCar() {
+        if (!data.carparkFull()) {
+            System.out.println("Enter ID:");
+            String id = sc.next();
+            if (!data.idFree(id)) {
+                System.out.println("ID already taken.");
+                menuAddCar();
+            }
+            System.out.println("Enter brand:");
+            String brand = sc.next();
+            Auto newCar = new Auto(id, brand);
+            data.addCar(newCar);
+            backToMenu("Car added.");
+        } else {
+            backToMenu("Carpark is Full!");
+        }
+
     }
-    public static void menuAusgabeAutoliste(){
-        Auto[] usedCars = data.rueckgabeAutoliste();
+
+    public static void menuPrintCarpark() {
+        Auto[] usedCars = data.returnUsedCars();
         for (Auto usedCar : usedCars) {
             System.out.println(usedCar.toString());
         }
-        ausgabeBeendet();
+        backToMenu("Those are all Cars.");
     }
-    public static void menuSearchCar(){
+
+    public static void menuSearchCar() {
         System.out.println("Suchbegriff Eingeben");
         String suchbegriff = UserInterface.sc.next().toLowerCase();
         data.sucheAuto(suchbegriff);
-        ausgabeBeendet();
+        backToMenu("Found your Car?");
     }
 
-    public static void menuDeleteCar(){
-        System.out.println("Welches Auto möchtest du löschen? ID Eingeben!");
+    public static void menuDeleteCar() {
+        System.out.println("Enter ID of car to delete!");
         String idToDelete = UserInterface.sc.next().toLowerCase();
         data.deleteCar(idToDelete);
-        ausgabeBeendet();
+        backToMenu("Car deleted!");
     }
 
-    public static void ausgabeBeendet(){
+    public static void carParkSortMenu() {
+        data.carparkSort();
+        backToMenu("Cars sorted by brand!");
+    }
+
+    public static void backToMenu(String info) {
         System.out.println("------------");
-        System.out.println("Ausgabe Beendet.");
+        System.out.println(info);
+        System.out.println("Back to Main Menu");
         System.out.println("------------");
         menuMain();
-
     }
-
-
 }
 
