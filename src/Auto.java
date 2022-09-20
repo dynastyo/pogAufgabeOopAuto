@@ -1,32 +1,25 @@
 public class Auto {
-private String brand, id;
-//model, id
-//private double value;
-//private int topSpeed;
-//private boolean used;
+private String brand, id, model;
+private double value;
+private int topSpeed;
+private boolean unUsed;
 
     public Auto() {
     }
 
-//    public Auto(String brand, String model, String id, boolean used) {
-//        this.brand = brand;
-//        this.model = model;
-//        this.id = id;
-//        this.used = used;
-//    }
     public Auto(String id, String brand) {
         this.brand = brand;
         this.id = id;
     }
 
-    //    public Auto(String brand, String model, String id, double value, int topSpeed, boolean used) {
-//        this.brand = brand;
-//        this.model = model;
-//        this.id = id;
-//        this.value = value;
-//        this.topSpeed = topSpeed;
-//        this.used = used;
-//    }
+        public Auto(String brand, String model, String id, double value, int topSpeed, boolean unUsed) {
+        this.brand = brand;
+        this.model = model;
+        this.id = id;
+        this.value = value;
+        this.topSpeed = topSpeed;
+        this.unUsed = unUsed;
+    }
 
 
     public String getBrand() {
@@ -37,13 +30,13 @@ private String brand, id;
         this.brand = brand;
     }
 
-//    public String getModel() {
-//        return model;
-//    }
-//
-//    public void setModel(String model) {
-//        this.model = model;
-//    }
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
 
     public String getId() {
         return id;
@@ -53,31 +46,31 @@ private String brand, id;
         this.id = id;
     }
 
-//    public double getValue() {
-//        return value;
-//    }
-//
-//    public void setValue(double value) {
-//        this.value = value;
-//    }
-//
-//    public int getTopSpeed() {
-//        return topSpeed;
-//    }
-//
-//    public void setTopSpeed(int topSpeed) {
-//        this.topSpeed = topSpeed;
-//    }
-//
-//    public boolean isUsed() {
-//        return used;
-//    }
-//
-//    public void setUsed(boolean used) {
-//        this.used = used;
-//    }
+    public double getValue() {
+        return value;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
+    }
+
+    public int getTopSpeed() {
+        return topSpeed;
+    }
+
+    public void setTopSpeed(int topSpeed) {
+        this.topSpeed = topSpeed;
+    }
+
+    public boolean isUsed() {
+        return unUsed;
+    }
+
+    public void setUsed(boolean used) {
+        this.unUsed = used;
+    }
     @Override
     public String toString() {
-        return this.id + " + " + this.brand + " peter";
+        return "------------\nID:\t\t\t" + this.id+ "\nBrand:\t\t" + this.brand+ "\nModel: \t\t" + this.model + "\nValue: \t\t" + this.value + " USD\nTop Speed: \t" + this.topSpeed + " KMH\nNew: \t\t" + this.unUsed;
     }
 }

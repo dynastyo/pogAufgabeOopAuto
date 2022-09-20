@@ -11,7 +11,6 @@ public class Database {
         carpark = new Auto[50];
     }
 
-    // Hinzufügen eines Autos
     public boolean carparkFull() {
         return amountCars >= 50;
     }
@@ -38,34 +37,38 @@ public class Database {
     public void sucheAuto(String suchbegriff) {
         for (int i = 0; i < amountCars; i++) {
             if (suchbegriff.equals(carpark[i].getBrand().toLowerCase()) || suchbegriff.equals(carpark[i].getId().toLowerCase())) {
-
+                System.out.println("hiho");
             }
         }
     }
 
-    public void deleteCar(String idToDelete) {
+    public boolean deleteCar(String idToDelete) {
         for (int i = 0; i < amountCars; i++) {
-            if (carpark[i] != null) {
-                if (idToDelete.equals(carpark[i].getId().toLowerCase())) {
-                    carpark[i] = carpark[amountCars - 1];
-                    carpark[amountCars - 1] = null;
-                    amountCars--;
-                }
+            if (idToDelete.equals(carpark[i].getId().toLowerCase())) {
+                carpark[i] = carpark[amountCars - 1];
+                carpark[amountCars - 1] = null;
+                amountCars--;
+                return true;
             }
         }
+        return false;
     }
 
     public void carparkSort() {
         Arrays.sort(carpark, Comparator.comparing(Auto::getBrand));
-        UserInterface.menuMain();
     }
 
     public void dummyDaten() {
         String[] brands = new String[]{"BMW", "Audi", "VW", "Opel", "Dacia", "Suzuki"};
+        String[] models = new String[]{"500", "A7", "Corsa", "3", "Tiguan", "F240", "Diabolo"};
         Random rand = new Random();
         for (int i = 0; i < 50; i++) {
             int brand = rand.nextInt(brands.length - 1);
-            carpark[i] = new Auto(String.valueOf(i + 1), brands[brand]);
+            int model = rand.nextInt(models.length - 1);
+            double value = Math.round(rand.nextDouble(500, 100000) *100.0)/100.00;
+            int topspeed = rand.nextInt(80, 270);
+            boolean unUsed = rand.nextBoolean();
+            carpark[i] = new Auto(brands[brand],models[model],String.valueOf(i + 1),value, topspeed, unUsed );
             amountCars++;
         }
     }

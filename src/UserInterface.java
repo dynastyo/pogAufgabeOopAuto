@@ -11,11 +11,11 @@ public class UserInterface {
 
     public static void menuMain() {
         System.out.println("1 - Add car to carpark");
-        System.out.println("2 - list all cars");
-        System.out.println("3 - search for a car");
-        System.out.println("4 - delete a car");
-        System.out.println("5 - sort cars by brand");
-        System.out.println("your choice?");
+        System.out.println("2 - List all cars");
+        System.out.println("3 - Search for a car");
+        System.out.println("4 - Delete a car");
+        System.out.println("5 - Sort cars by brand");
+        System.out.println("Your choice?");
         String auswahl = sc.next();
         switch (auswahl) {
             case "1" -> menuAddCar();
@@ -66,8 +66,8 @@ public class UserInterface {
     public static void menuDeleteCar() {
         System.out.println("Enter ID of car to delete!");
         String idToDelete = UserInterface.sc.next().toLowerCase();
-        data.deleteCar(idToDelete);
-        backToMenu("Car deleted!");
+        if (data.deleteCar(idToDelete)) backToMenu("Car deleted!");
+        else backToMenu("ID not found, could not delete the car!");
     }
 
     public static void menuSortCarpark() {
@@ -78,9 +78,8 @@ public class UserInterface {
     public static void backToMenu(String info) {
         System.out.println("------------");
         System.out.println(info);
-        System.out.println("Back to Main Menu");
+        System.out.println("\nGoing back to Main Menu");
         System.out.println("------------");
         menuMain();
     }
 }
-
