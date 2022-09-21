@@ -40,6 +40,22 @@ public class UserInterface {
             }
             System.out.println("Enter brand:");
             String brand = sc.next();
+            System.out.println("Enter model:");
+            String model = sc.next();
+            boolean bError = false;
+            do{
+                try {
+                    System.out.println("Enter value:");
+                    double value = sc.nextDouble();
+                    bError = false;
+                } catch (Exception e) {
+                    System.out.println("Value needs to be a number");
+                    sc.nextLine(); // stupid line to fix the scanner bug
+                    bError = true;
+                }
+            } while (bError);
+
+
             Auto newCar = new Auto(id, brand);
             data.addCar(newCar);
             backToMenu("Car added.");
@@ -53,7 +69,7 @@ public class UserInterface {
         for (Auto usedCar : usedCars) {
             System.out.println(usedCar.toString());
         }
-        backToMenu("Those are all Cars.");
+        backToMenu("Those are all " +usedCars.length + " Cars.");
     }
 
     public static void menuSearchCar() {
@@ -66,7 +82,7 @@ public class UserInterface {
     public static void menuDeleteCar() {
         System.out.println("Enter ID of car to delete!");
         String idToDelete = UserInterface.sc.next().toLowerCase();
-        if (data.deleteCar(idToDelete)) backToMenu("Car deleted!");
+        if (data.deleteCar(idToDelete)) backToMenu("The car with ID \""+ idToDelete+"\" got deleted!");
         else backToMenu("ID not found, could not delete the car!");
     }
 
@@ -76,10 +92,7 @@ public class UserInterface {
     }
 
     public static void backToMenu(String info) {
-        System.out.println("------------");
-        System.out.println(info);
-        System.out.println("\nGoing back to Main Menu");
-        System.out.println("------------");
+        System.out.println("-------------\n" + info + "\n- - - - - - -\nGoing back to Main Menu\n-------------");
         menuMain();
     }
 }

@@ -71,6 +71,6 @@ private boolean unUsed;
     }
     @Override
     public String toString() {
-        return "------------\nID:\t\t\t" + this.id+ "\nBrand:\t\t" + this.brand+ "\nModel: \t\t" + this.model + "\nValue: \t\t" + this.value + " USD\nTop Speed: \t" + this.topSpeed + " KMH\nNew: \t\t" + this.unUsed;
+        return "-------------\nID:\t\t\t" + this.id+ "\nBrand:\t\t" + this.brand+ "\nModel: \t\t" + this.model + "\nValue: \t\t" + this.value + " USD\nTop Speed: \t" + this.topSpeed + " KMH\nNew: \t\t" + this.unUsed;
     }
 }
