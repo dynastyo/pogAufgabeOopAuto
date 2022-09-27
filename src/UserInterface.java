@@ -8,9 +8,7 @@ public class UserInterface {
 
     public static void main(String[] args) {
         data.dummyDaten(40);
-
-       menuMain();
-
+        menuMain();
     }
 
     public static void menuMain() {
@@ -48,18 +46,18 @@ public class UserInterface {
             String brand = sc.nextLine();
             System.out.println("Enter model:");
             String model = sc.nextLine();
-            double value = Double.parseDouble(addCarAttribute("value","Enter value:", double.class).replace(",","."));
-            int topSpeed = Integer.parseInt(addCarAttribute("topSpeed","Enter topSpeed:", int.class));
-            boolean unUsed = Boolean.parseBoolean(addCarAttribute("unUsed","Is the car new? true/false:", boolean.class));
+            double value = Double.parseDouble(addCarAttribute("Enter value:", double.class).replace(",","."));
+            int topSpeed = Integer.parseInt(addCarAttribute("Enter topSpeed:", int.class));
+            boolean unUsed = Boolean.parseBoolean(addCarAttribute("Is the car new? true/false:", boolean.class));
             Auto newCar = new Auto(brand, model, id, value, topSpeed, unUsed);
             data.addCar(newCar);
             backToMenu("Car added.");
         }
     }
 
-    public static String addCarAttribute(String attributeName,String syso1, Class<?> type){
-        System.out.println(syso1);
-        attributeName = sc.nextLine();
+    public static String addCarAttribute(String sysoBegin, Class<?> type){
+        System.out.println(sysoBegin);
+        String attributeName = sc.nextLine();
         if (type.equals(double.class)) attributeName = attributeName.replace(".",",");
         while (!checkDatatype(type, attributeName)){
             System.out.println("Value must be a " + type +". Try again!"); //edit text
