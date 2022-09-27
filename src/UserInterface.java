@@ -1,13 +1,32 @@
+
 import java.util.Scanner;
 
 public class UserInterface {
     static Database data = new Database();
     static Scanner sc = new Scanner(System.in);
 
+
     public static void main(String[] args) {
-        data.dummyDaten();
-        menuMain();
+        data.dummyDaten(40);
+
+       menuMain();
+
     }
+
+    public static boolean checkDatatype(Class<?> type, String value){
+        Scanner checkscan = new Scanner(value);
+        boolean result = false;
+        if (type.equals(int.class)) {
+            result = checkscan.hasNextInt();
+        } else if (type.equals(boolean.class)) {
+            result = checkscan.hasNextBoolean();
+        } else if (type.equals(double.class)) {
+            result = checkscan.hasNextDouble();
+        }
+        checkscan.close();
+        return result;
+    }
+
 
     public static void menuMain() {
         System.out.println("1 - Add car to carpark");
@@ -16,7 +35,7 @@ public class UserInterface {
         System.out.println("4 - Delete a car");
         System.out.println("5 - Sort cars by brand");
         System.out.println("Your choice?");
-        String auswahl = sc.next();
+        String auswahl = sc.nextLine();
         switch (auswahl) {
             case "1" -> menuAddCar();
             case "2" -> menuPrintCarpark();
@@ -33,30 +52,42 @@ public class UserInterface {
     public static void menuAddCar() {
         if (!data.carparkFull()) {
             System.out.println("Enter ID:");
-            String id = sc.next();
+            String id = sc.nextLine();
             if (!data.idFree(id)) {
                 System.out.println("ID already taken.");
                 menuAddCar();
             }
             System.out.println("Enter brand:");
-            String brand = sc.next();
+            String brand = sc.nextLine();
             System.out.println("Enter model:");
-            String model = sc.next();
-            boolean bError = false;
-            do{
-                try {
-                    System.out.println("Enter value:");
-                    double value = sc.nextDouble();
-                    bError = false;
-                } catch (Exception e) {
-                    System.out.println("Value needs to be a number");
-                    sc.nextLine(); // stupid line to fix the scanner bug
-                    bError = true;
-                }
-            } while (bError);
+            String model = sc.nextLine();
+
+            System.out.println("Enter value:");
+            String valueString = sc.nextLine();
+            while (!checkDatatype(double.class, valueString.replace(".",","))){
+                System.out.println("Value must be a number. Try again!");
+                valueString = sc.nextLine();
+            }
+            double value = Double.parseDouble(valueString.replace(",","."));
+
+            System.out.println("Enter topSpeed:");
+            String topSpeedString = sc.nextLine();
+            while (!checkDatatype(int.class, topSpeedString)){
+                System.out.println("Value must be a number. Try again!");
+                topSpeedString = sc.nextLine();
+            }
+            int topSpeed = Integer.parseInt(topSpeedString);
+
+            System.out.println("is the car new? true/false:");
+            String unUsedString = sc.nextLine();
+            while (!checkDatatype(boolean.class, unUsedString)){
+                System.out.println("Enter true or false! nothing else!");
+                unUsedString = sc.nextLine();
+            }
+            boolean unUsed = Boolean.parseBoolean(unUsedString);
 
 
-            Auto newCar = new Auto(id, brand);
+            Auto newCar = new Auto(brand, model, id, value, topSpeed, unUsed);
             data.addCar(newCar);
             backToMenu("Car added.");
         } else {
@@ -67,21 +98,24 @@ public class UserInterface {
     public static void menuPrintCarpark() {
         Auto[] usedCars = data.returnUsedCars();
         for (Auto usedCar : usedCars) {
-            System.out.println(usedCar.toString());
+            //            "TNew: \t\t" + this.unUsed, this.value;
+
+            System.out.printf("ID:\t\t\t%s\nBrand:\t\t%s\nModel:\t\t%s\nValue:\t\t%.2f USD\nTop Speed:\t%d MPH\nNew:\t\t%b%n", usedCar.getId(),usedCar.getBrand(),usedCar.getModel(), usedCar.getValue(), usedCar.getTopSpeed(), usedCar.isUsed());
+
         }
         backToMenu("Those are all " +usedCars.length + " Cars.");
     }
 
     public static void menuSearchCar() {
         System.out.println("Suchbegriff Eingeben");
-        String suchbegriff = UserInterface.sc.next().toLowerCase();
+        String suchbegriff = UserInterface.sc.nextLine().toLowerCase();
         data.sucheAuto(suchbegriff);
         backToMenu("Found your Car?");
     }
 
     public static void menuDeleteCar() {
         System.out.println("Enter ID of car to delete!");
-        String idToDelete = UserInterface.sc.next().toLowerCase();
+        String idToDelete = UserInterface.sc.nextLine().toLowerCase();
         if (data.deleteCar(idToDelete)) backToMenu("The car with ID \""+ idToDelete+"\" got deleted!");
         else backToMenu("ID not found, could not delete the car!");
     }

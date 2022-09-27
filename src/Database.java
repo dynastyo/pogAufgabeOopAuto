@@ -58,14 +58,14 @@ public class Database {
         Arrays.sort(carpark, Comparator.comparing(Auto::getBrand));
     }
 
-    public void dummyDaten() {
+    public void dummyDaten(int amountOfCars) {
         String[] brands = new String[]{"BMW", "Audi", "VW", "Opel", "Dacia", "Suzuki"};
         String[] models = new String[]{"500", "A7", "Corsa", "3", "Tiguan", "F240", "Diabolo"};
         Random rand = new Random();
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < amountOfCars; i++) {
             int brand = rand.nextInt(brands.length - 1);
             int model = rand.nextInt(models.length - 1);
-            double value = Math.round(rand.nextDouble(500, 100000) *100.0)/100.00;
+            double value = Math.round(rand.nextDouble(500, 100000) *100)/100.00;
             int topspeed = rand.nextInt(80, 270);
             boolean unUsed = rand.nextBoolean();
             carpark[i] = new Auto(brands[brand],models[model],String.valueOf(i + 1),value, topspeed, unUsed );
