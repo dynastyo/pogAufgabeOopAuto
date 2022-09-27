@@ -13,21 +13,6 @@ public class UserInterface {
 
     }
 
-    public static boolean checkDatatype(Class<?> type, String value){
-        Scanner checkscan = new Scanner(value);
-        boolean result = false;
-        if (type.equals(int.class)) {
-            result = checkscan.hasNextInt();
-        } else if (type.equals(boolean.class)) {
-            result = checkscan.hasNextBoolean();
-        } else if (type.equals(double.class)) {
-            result = checkscan.hasNextDouble();
-        }
-        checkscan.close();
-        return result;
-    }
-
-
     public static void menuMain() {
         System.out.println("1 - Add car to carpark");
         System.out.println("2 - List all cars");
@@ -50,7 +35,9 @@ public class UserInterface {
     }
 
     public static void menuAddCar() {
-        if (!data.carparkFull()) {
+        if (data.carparkFull()) {
+            backToMenu("Carpark is Full!");
+        } else {
             System.out.println("Enter ID:");
             String id = sc.nextLine();
             if (!data.idFree(id)) {
@@ -61,46 +48,44 @@ public class UserInterface {
             String brand = sc.nextLine();
             System.out.println("Enter model:");
             String model = sc.nextLine();
-
-            System.out.println("Enter value:");
-            String valueString = sc.nextLine();
-            while (!checkDatatype(double.class, valueString.replace(".",","))){
-                System.out.println("Value must be a number. Try again!");
-                valueString = sc.nextLine();
-            }
-            double value = Double.parseDouble(valueString.replace(",","."));
-
-            System.out.println("Enter topSpeed:");
-            String topSpeedString = sc.nextLine();
-            while (!checkDatatype(int.class, topSpeedString)){
-                System.out.println("Value must be a number. Try again!");
-                topSpeedString = sc.nextLine();
-            }
-            int topSpeed = Integer.parseInt(topSpeedString);
-
-            System.out.println("is the car new? true/false:");
-            String unUsedString = sc.nextLine();
-            while (!checkDatatype(boolean.class, unUsedString)){
-                System.out.println("Enter true or false! nothing else!");
-                unUsedString = sc.nextLine();
-            }
-            boolean unUsed = Boolean.parseBoolean(unUsedString);
-
-
+            double value = Double.parseDouble(addCarAttribute("value","Enter value:", double.class).replace(",","."));
+            int topSpeed = Integer.parseInt(addCarAttribute("topSpeed","Enter topSpeed:", int.class));
+            boolean unUsed = Boolean.parseBoolean(addCarAttribute("unUsed","Is the car new? true/false:", boolean.class));
             Auto newCar = new Auto(brand, model, id, value, topSpeed, unUsed);
             data.addCar(newCar);
             backToMenu("Car added.");
-        } else {
-            backToMenu("Carpark is Full!");
         }
+    }
+
+    public static String addCarAttribute(String attributeName,String syso1, Class<?> type){
+        System.out.println(syso1);
+        attributeName = sc.nextLine();
+        if (type.equals(double.class)) attributeName = attributeName.replace(".",",");
+        while (!checkDatatype(type, attributeName)){
+            System.out.println("Value must be a " + type +". Try again!"); //edit text
+            attributeName = sc.nextLine();
+        }
+        return attributeName;
+    }
+
+    public static boolean checkDatatype(Class<?> type, String value){
+        Scanner checkscan = new Scanner(value);
+        boolean result = false;
+        if (type.equals(int .class)) {
+            result = checkscan.hasNextInt();
+        } else if (type.equals(boolean.class)) {
+            result = checkscan.hasNextBoolean();
+        } else if (type.equals(double.class)) {
+            result = checkscan.hasNextDouble();
+        }
+        checkscan.close();
+        return result;
     }
 
     public static void menuPrintCarpark() {
         Auto[] usedCars = data.returnUsedCars();
         for (Auto usedCar : usedCars) {
-            //            "TNew: \t\t" + this.unUsed, this.value;
-
-            System.out.printf("ID:\t\t\t%s\nBrand:\t\t%s\nModel:\t\t%s\nValue:\t\t%.2f USD\nTop Speed:\t%d MPH\nNew:\t\t%b%n", usedCar.getId(),usedCar.getBrand(),usedCar.getModel(), usedCar.getValue(), usedCar.getTopSpeed(), usedCar.isUsed());
+            System.out.printf("-------------\nID:\t\t\t%s\nBrand:\t\t%s\nModel:\t\t%s\nValue:\t\t%.2f USD\nTop Speed:\t%d MPH\nNew:\t\t%b%n", usedCar.getId(),usedCar.getBrand(),usedCar.getModel(), usedCar.getValue(), usedCar.getTopSpeed(), usedCar.isUsed());
 
         }
         backToMenu("Those are all " +usedCars.length + " Cars.");

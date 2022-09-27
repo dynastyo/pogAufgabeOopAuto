@@ -75,7 +75,7 @@ private boolean unUsed;
     public void pirntCar(){
         System.out.printf("%.2f\n", this.value);
     }
-    //            return "-------------\nID:\t \t\t" + this.id+ "\nBrand:\t\t" + this.brand+ "\nModel: \t\t" + this.model + "\nValue: \t\t%.2f USD\nTop Speed: \t" + this.topSpeed + " KMH\nNew: \t\t" + this.unUsed, this.value;
+    //            return "ID:\t \t\t" + this.id+ "\nBrand:\t\t" + this.brand+ "\nModel: \t\t" + this.model + "\nValue: \t\t%.2f USD\nTop Speed: \t" + this.topSpeed + " KMH\nNew: \t\t" + this.unUsed, this.value;
 
 
 }
