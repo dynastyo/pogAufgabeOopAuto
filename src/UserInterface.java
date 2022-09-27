@@ -46,6 +46,7 @@ public class UserInterface {
             String brand = sc.nextLine();
             System.out.println("Enter model:");
             String model = sc.nextLine();
+            // added replace -> , and . can be used as a seperator
             double value = Double.parseDouble(addCarAttribute("Enter value:", double.class).replace(",","."));
             int topSpeed = Integer.parseInt(addCarAttribute("Enter topSpeed:", int.class));
             boolean unUsed = Boolean.parseBoolean(addCarAttribute("Is the car new? true/false:", boolean.class));
