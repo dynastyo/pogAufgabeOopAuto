@@ -58,13 +58,13 @@ public class UserInterface {
 
     public static String addCarAttribute(String sysoBegin, Class<?> type){
         System.out.println(sysoBegin);
-        String attributeName = sc.nextLine();
-        if (type.equals(double.class)) attributeName = attributeName.replace(".",",");
-        while (!checkDatatype(type, attributeName)){
-            System.out.println("Value must be a " + type +". Try again!"); //edit text
-            attributeName = sc.nextLine();
+        String value = sc.nextLine();
+        if (type.equals(double.class)) value = value.replace(".",",");
+        while (!checkDatatype(type, value)){
+            System.out.println("Value must be a " + type +". Try again!");
+            value = sc.nextLine();
         }
-        return attributeName;
+        return value;
     }
 
     public static boolean checkDatatype(Class<?> type, String value){
