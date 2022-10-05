@@ -6,7 +6,7 @@ public class UserInterface {
 
 
     public static void main(String[] args) {
-        data.dummyDaten(40);
+        data.dummyDaten(3);
         menuMain();
     }
 
@@ -111,24 +111,24 @@ public class UserInterface {
         }
     }
 
-    public static void menuSearchString(String category) {
+    public static void menuSearchString(String key) {
         int foundCars = 0;
         Auto[] cars = data.returnCarArray();
-        System.out.println("Enter " + category + " to look for:");
+        System.out.println("Enter " + key + " to look for:");
         String searchString = sc.nextLine().toLowerCase();
         for (Auto car : cars) {
-            if (car.getBrand().toLowerCase().contains(searchString) && category.equals("Brand")) {
+            if (car.getBrand().toLowerCase().contains(searchString) && key.equals("Brand")) {
                 foundCars++;
                 printCar(car);
-            } else if (car.getModel().toLowerCase().contains(searchString) && category.equals("Model")) {
+            } else if (car.getModel().toLowerCase().contains(searchString) && key.equals("Model")) {
                 foundCars++;
                 printCar(car);
-            } else if (car.getId().toLowerCase().contains(searchString) && category.equals("ID")) {
+            } else if (car.getId().toLowerCase().contains(searchString) && key.equals("ID")) {
                 foundCars++;
                 printCar(car);
             }
         }
-        backToMenu("Those are all " + foundCars + " Cars. I could find with " + searchString + " in " + category + "s");
+        backToMenu("Those are all " + foundCars + " Cars. I could find with " + searchString + " in " + key + "s");
     }
 
     public static void menuListNewUsed() {
@@ -152,9 +152,6 @@ public class UserInterface {
         backToMenu("Those are all " + foundCars + " Cars.");
     }
 
-    public static void printCar(Auto car) {
-        System.out.printf("-------------\nID:\t\t\t%s\nBrand:\t\t%s\nModel:\t\t%s\nValue:\t\t%.2f USD\nTop Speed:\t%d MPH\nNew:\t\t%b%n", car.getId(), car.getBrand(), car.getModel(), car.getValue(), car.getTopSpeed(), car.isUsed());
-    }
 
     public static void menuDeleteCar() {
         System.out.println("Enter ID of car to delete!");
@@ -171,5 +168,8 @@ public class UserInterface {
     public static void backToMenu(String info) {
         System.out.println("-------------\n" + info + "\n- - - - - - -\nGoing back to Main Menu\n-------------");
         menuMain();
+    }
+    public static void printCar(Auto car) {
+        System.out.printf("-------------\nID:\t\t\t%s\nBrand:\t\t%s\nModel:\t\t%s\nValue:\t\t%.2f USD\nTop Speed:\t%d MPH\nNew:\t\t%b%n", car.getId(), car.getBrand(), car.getModel(), car.getValue(), car.getTopSpeed(), car.isUsed());
     }
 }
