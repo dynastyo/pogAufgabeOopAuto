@@ -53,7 +53,6 @@ public class UserInterface {
     }
 
 
-
     public static void menuPrintCarpark() {
         Auto[] cars = data.returnCarArray();
         for (Auto car : cars) {
@@ -86,28 +85,25 @@ public class UserInterface {
     }
 
 
-
-    public static void menuSearchString(String category){
+    public static void menuSearchString(String category) {
         String searchString = addAttribute("Enter " + category + " to look for:", String.class).toLowerCase();
         Auto[] cars = data.returnSearchStringArray(category, searchString);
         int foundCars = printCarArray(cars);
-        if (foundCars == 0){
+        if (foundCars == 0) {
             backToMenu("No cars found");
-        }
-        else {
+        } else {
             backToMenu("Those are all " + foundCars + " Cars. I could find with " + searchString + " in " + category + "s");
         }
     }
 
-    public static void menuSearchInt(String category){
+    public static void menuSearchInt(String category) {
         int minInt = Integer.parseInt(addAttribute("Enter minimum:", Integer.class));
         int maxInt = Integer.parseInt(addAttribute("Enter maximum:", Integer.class));
         Auto[] cars = data.returnSearchIntArray(category, minInt, maxInt);
         int foundCars = printCarArray(cars);
-        if (foundCars == 0){
+        if (foundCars == 0) {
             backToMenu("No cars found");
-        }
-        else {
+        } else {
             backToMenu("Those are all " + foundCars + " Cars with a " + category + " between " + minInt + " and " + maxInt + ".");
         }
     }
@@ -121,17 +117,14 @@ public class UserInterface {
         }
         Auto[] cars = data.returnSearchBoolArray(input);
         int foundCars = printCarArray(cars);
-        if (foundCars == 0){
+        if (foundCars == 0) {
             backToMenu("No cars found");
-        }
-        else if ("n".equals(input)){
+        } else if ("n".equals(input)) {
             backToMenu("Those are all " + foundCars + " new Cars.");
-        }
-        else if ("u".equals(input)){
+        } else if ("u".equals(input)) {
             backToMenu("Those are all " + foundCars + " used Cars.");
         }
     }
-
 
 
     public static void menuDeleteCar() {
@@ -150,24 +143,24 @@ public class UserInterface {
         System.out.printf("-------------\nID:\t\t\t%s\nBrand:\t\t%s\nModel:\t\t%s\nValue:\t\t%.2f USD\nTop Speed:\t%d MPH\nNew:\t\t%b%n", car.getId(), car.getBrand(), car.getModel(), car.getValue(), car.getTopSpeed(), car.isUnUsed());
     }
 
-    public static int printCarArray(Auto[] cars){
+    public static int printCarArray(Auto[] cars) {
         int foundCars = 0;
-        for (Auto car:cars
-        ) {
-            if (car != null){
+        for (Auto car : cars) {
+            if (car != null) {
                 printCar(car);
                 foundCars++;
             }
         }
         return foundCars;
     }
+
     public static void backToMenu(String info) {
         System.out.println("-------------\n" + info + "\n- - - - - - -\nGoing back to Main Menu\n-------------");
         menuMain();
     }
 
-    public static String addAttribute(String sysoBegin, Class<?> type) {
-        System.out.println(sysoBegin);
+    public static String addAttribute(String soutBegin, Class<?> type) {
+        System.out.println(soutBegin);
         String value = sc.nextLine();
         if (type.equals(Double.class)) value = value.replace(".", ",");
         while (!checkDatatype(type, value)) {
@@ -186,7 +179,7 @@ public class UserInterface {
             result = checkscan.hasNextBoolean();
         } else if (type.equals(Double.class)) {
             result = checkscan.hasNextDouble();
-        } else if(type.equals(String.class)){
+        } else if (type.equals(String.class)) {
             result = !value.isEmpty();
         }
         checkscan.close();

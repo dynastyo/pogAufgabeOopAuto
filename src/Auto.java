@@ -1,9 +1,8 @@
-
 public class Auto {
-private String brand, id, model;
-private double value;
-private int topSpeed;
-private boolean unUsed;
+    private String brand, id, model;
+    private double value;
+    private int topSpeed;
+    private boolean unUsed;
 
 
     public Auto() {
@@ -14,7 +13,7 @@ private boolean unUsed;
         this.id = id;
     }
 
-        public Auto(String brand, String model, String id, double value, int topSpeed, boolean unUsed) {
+    public Auto(String brand, String model, String id, double value, int topSpeed, boolean unUsed) {
         this.brand = brand;
         this.model = model;
         this.id = id;
