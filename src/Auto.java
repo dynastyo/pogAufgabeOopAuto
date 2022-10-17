@@ -64,11 +64,11 @@ private boolean unUsed;
         this.topSpeed = topSpeed;
     }
 
-    public boolean isUsed() {
+    public boolean isUnUsed() {
         return unUsed;
     }
 
-    public void setUsed(boolean used) {
+    public void setUnUsed(boolean used) {
         this.unUsed = used;
     }
 }

@@ -6,7 +6,7 @@ public class UserInterface {
 
 
     public static void main(String[] args) {
-        data.dummyDaten(3);
+        data.dummyDaten(40);
         menuMain();
     }
 
@@ -46,39 +46,16 @@ public class UserInterface {
             System.out.println("Enter model:");
             String model = sc.nextLine();
             // added replace -> , and . can be used as a seperator
-            double value = Double.parseDouble(addCarAttribute("Enter value:", double.class).replace(",", "."));
-            int topSpeed = Integer.parseInt(addCarAttribute("Enter topSpeed:", int.class));
-            boolean unUsed = Boolean.parseBoolean(addCarAttribute("Is the car new? true/false:", boolean.class));
+            double value = Double.parseDouble(addAttribute("Enter value:", double.class).replace(",", "."));
+            int topSpeed = Integer.parseInt(addAttribute("Enter topSpeed:", int.class));
+            boolean unUsed = Boolean.parseBoolean(addAttribute("Is the car new? true/false:", boolean.class));
             Auto newCar = new Auto(brand, model, id, value, topSpeed, unUsed);
             data.addCar(newCar);
             backToMenu("Car added.");
         }
     }
 
-    public static String addCarAttribute(String sysoBegin, Class<?> type) {
-        System.out.println(sysoBegin);
-        String value = sc.nextLine();
-        if (type.equals(double.class)) value = value.replace(".", ",");
-        while (!checkDatatype(type, value)) {
-            System.out.println("Value must be a " + type + ". Try again!");
-            value = sc.nextLine();
-        }
-        return value;
-    }
 
-    public static boolean checkDatatype(Class<?> type, String value) {
-        Scanner checkscan = new Scanner(value);
-        boolean result = false;
-        if (type.equals(int.class)) {
-            result = checkscan.hasNextInt();
-        } else if (type.equals(boolean.class)) {
-            result = checkscan.hasNextBoolean();
-        } else if (type.equals(double.class)) {
-            result = checkscan.hasNextDouble();
-        }
-        checkscan.close();
-        return result;
-    }
 
     public static void menuPrintCarpark() {
         Auto[] cars = data.returnCarArray();
@@ -101,9 +78,9 @@ public class UserInterface {
             case "1" -> menuSearchString("ID");
             case "2" -> menuSearchString("Brand");
             case "3" -> menuSearchString("Model");
-//            case "4" -> menuSearchValue();
-//            case "5" -> menuSearchValue();
-            case "6" -> menuListNewUsed();
+            case "4" -> menuSearchInt("Value");
+            case "5" -> menuSearchInt("Top Speed");
+            case "6" -> menuSearchNewUsed();
             default -> {
                 System.out.println("Wrong input, try again!");
                 menuSearchCar();
@@ -111,46 +88,54 @@ public class UserInterface {
         }
     }
 
-    public static void menuSearchString(String key) {
-        int foundCars = 0;
-        Auto[] cars = data.returnCarArray();
-        System.out.println("Enter " + key + " to look for:");
+
+
+    public static void menuSearchString(String category){
+        System.out.println("Enter " + category + " to look for:");
         String searchString = sc.nextLine().toLowerCase();
-        for (Auto car : cars) {
-            if (car.getBrand().toLowerCase().contains(searchString) && key.equals("Brand")) {
-                foundCars++;
-                printCar(car);
-            } else if (car.getModel().toLowerCase().contains(searchString) && key.equals("Model")) {
-                foundCars++;
-                printCar(car);
-            } else if (car.getId().toLowerCase().contains(searchString) && key.equals("ID")) {
-                foundCars++;
-                printCar(car);
-            }
+        Auto[] cars = data.returnSearchStringArray(category, searchString);
+        int foundCars = printCarArray(cars);
+        if (foundCars == 0){
+            backToMenu("No cars found");
         }
-        backToMenu("Those are all " + foundCars + " Cars. I could find with " + searchString + " in " + key + "s");
+        else {
+            backToMenu("Those are all " + foundCars + " Cars. I could find with " + searchString + " in " + category + "s");
+        }
     }
 
-    public static void menuListNewUsed() {
-        int foundCars = 0;
-        Auto[] cars = data.returnCarArray();
+    public static void menuSearchInt(String category){
+        int minInt = Integer.parseInt(addAttribute("Enter minimum:", int.class));
+        int maxInt = Integer.parseInt(addAttribute("Enter maximum:", int.class));
+        Auto[] cars = data.returnSearchIntArray(category, minInt, maxInt);
+        int foundCars = printCarArray(cars);
+        if (foundCars == 0){
+            backToMenu("No cars found");
+        }
+        else {
+            backToMenu("Those are all " + foundCars + " Cars with a " + category + " between " + minInt + " and " + maxInt + ".");
+        }
+    }
+
+    public static void menuSearchNewUsed() {
         System.out.println("List new or used cars? N/U");
         String input = sc.nextLine().toLowerCase();
         if (!"n".equals(input) && !"u".equals(input)) {
             System.out.println("Wrong input, try again!");
-            menuListNewUsed();
+            menuSearchNewUsed();
         }
-        for (Auto car : cars) {
-            if (input.equals("n") && !car.isUsed()) {
-                foundCars++;
-                printCar(car);
-            } else if (input.equals("u") && car.isUsed()) {
-                foundCars++;
-                printCar(car);
-            }
+        Auto[] cars = data.returnSearchBoolArray(input);
+        int foundCars = printCarArray(cars);
+        if (foundCars == 0){
+            backToMenu("No cars found");
         }
-        backToMenu("Those are all " + foundCars + " Cars.");
+        else if ("n".equals(input)){
+            backToMenu("Those are all " + foundCars + " new Cars.");
+        }
+        else if ("u".equals(input)){
+            backToMenu("Those are all " + foundCars + " used Cars.");
+        }
     }
+
 
 
     public static void menuDeleteCar() {
@@ -165,11 +150,48 @@ public class UserInterface {
         backToMenu("Cars sorted by brand!");
     }
 
+    public static void printCar(Auto car) {
+        System.out.printf("-------------\nID:\t\t\t%s\nBrand:\t\t%s\nModel:\t\t%s\nValue:\t\t%.2f USD\nTop Speed:\t%d MPH\nNew:\t\t%b%n", car.getId(), car.getBrand(), car.getModel(), car.getValue(), car.getTopSpeed(), car.isUnUsed());
+    }
+
+    public static int printCarArray(Auto[] cars){
+        int foundCars = 0;
+        for (Auto car:cars
+        ) {
+            if (car != null){
+                printCar(car);
+                foundCars++;
+            }
+        }
+        return foundCars;
+    }
     public static void backToMenu(String info) {
         System.out.println("-------------\n" + info + "\n- - - - - - -\nGoing back to Main Menu\n-------------");
         menuMain();
     }
-    public static void printCar(Auto car) {
-        System.out.printf("-------------\nID:\t\t\t%s\nBrand:\t\t%s\nModel:\t\t%s\nValue:\t\t%.2f USD\nTop Speed:\t%d MPH\nNew:\t\t%b%n", car.getId(), car.getBrand(), car.getModel(), car.getValue(), car.getTopSpeed(), car.isUsed());
+
+    public static String addAttribute(String sysoBegin, Class<?> type) {
+        System.out.println(sysoBegin);
+        String value = sc.nextLine();
+        if (type.equals(double.class)) value = value.replace(".", ",");
+        while (!checkDatatype(type, value)) {
+            System.out.println("Value must be a " + type + ". Try again!");
+            value = sc.nextLine();
+        }
+        return value;
+    }
+
+    public static boolean checkDatatype(Class<?> type, String value) {
+        Scanner checkscan = new Scanner(value);
+        boolean result = false;
+        if (type.equals(int.class)) {
+            result = checkscan.hasNextInt();
+        } else if (type.equals(boolean.class)) {
+            result = checkscan.hasNextBoolean();
+        } else if (type.equals(double.class)) {
+            result = checkscan.hasNextDouble();
+        }
+        checkscan.close();
+        return result;
     }
 }
