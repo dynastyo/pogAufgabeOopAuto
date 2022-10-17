@@ -41,10 +41,10 @@ public class Database {
     public Auto[] returnSearchIntArray(String category, int minInt, int maxInt){
         Auto[] foundCars = new Auto[amountCars];
         for (int i = 0; i < amountCars; i++) {
-            if(carpark[i].getValue() >= minInt && carpark[i].getValue() <= maxInt && category.equals("Value")){
-                foundCars[i] = carpark[i];
-            } else if(carpark[i].getTopSpeed() >= minInt && carpark[i].getTopSpeed() <= maxInt && category.equals("Top Speed")){
-                foundCars[i] = carpark[i];
+            if(carPark[i].getValue() >= minInt && carPark[i].getValue() <= maxInt && category.equals("Value")){
+                foundCars[i] = carPark[i];
+            } else if(carPark[i].getTopSpeed() >= minInt && carPark[i].getTopSpeed() <= maxInt && category.equals("Top Speed")){
+                foundCars[i] = carPark[i];
             }
         }
         return foundCars;
@@ -52,12 +52,12 @@ public class Database {
     public Auto[] returnSearchStringArray(String category, String searchString){
         Auto[] foundCars = new Auto[amountCars];
         for (int i = 0; i < amountCars; i++) {
-            if (carpark[i].getBrand().toLowerCase().contains(searchString) && category.equals("Brand")) {
-                foundCars[i] = carpark[i];
-            } else if (carpark[i].getModel().toLowerCase().contains(searchString) && category.equals("Model")) {
-                foundCars[i] = carpark[i];
-            } else if (carpark[i].getId().toLowerCase().contains(searchString) && category.equals("ID")) {
-                foundCars[i] = carpark[i];
+            if (carPark[i].getBrand().toLowerCase().contains(searchString) && category.equals("Brand")) {
+                foundCars[i] = carPark[i];
+            } else if (carPark[i].getModel().toLowerCase().contains(searchString) && category.equals("Model")) {
+                foundCars[i] = carPark[i];
+            } else if (carPark[i].getId().toLowerCase().contains(searchString) && category.equals("ID")) {
+                foundCars[i] = carPark[i];
             }
         }
         return foundCars;
@@ -66,10 +66,10 @@ public class Database {
     public Auto[] returnSearchBoolArray(String newUsed){
         Auto[] foundCars = new Auto[amountCars];
         for (int i = 0; i < amountCars; i++) {
-            if (carpark[i].isUnUsed() && newUsed.equals("n")) {
-                foundCars[i] = carpark[i];
-            } else if (carpark[i].isUnUsed() && newUsed.equals("u")) {
-                foundCars[i] = carpark[i];
+            if (carPark[i].isUnUsed() && newUsed.equals("n")) {
+                foundCars[i] = carPark[i];
+            } else if (carPark[i].isUnUsed() && newUsed.equals("u")) {
+                foundCars[i] = carPark[i];
             }
         }
         return foundCars;

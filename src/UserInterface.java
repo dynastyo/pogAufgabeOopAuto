@@ -35,20 +35,17 @@ public class UserInterface {
         if (data.carparkFull()) {
             backToMenu("Carpark is Full!");
         } else {
-            System.out.println("Enter ID:");
-            String id = sc.nextLine();
+            String id = addAttribute("Enter ID:", String.class);
             if (!data.idFree(id)) {
                 System.out.println("ID already taken.");
                 menuAddCar();
             }
-            System.out.println("Enter brand:");
-            String brand = sc.nextLine();
-            System.out.println("Enter model:");
-            String model = sc.nextLine();
+            String brand = addAttribute("Enter brand:", String.class);
+            String model = addAttribute("Enter model:", String.class);
             // added replace -> , and . can be used as a seperator
-            double value = Double.parseDouble(addAttribute("Enter value:", double.class).replace(",", "."));
-            int topSpeed = Integer.parseInt(addAttribute("Enter topSpeed:", int.class));
-            boolean unUsed = Boolean.parseBoolean(addAttribute("Is the car new? true/false:", boolean.class));
+            double value = Double.parseDouble(addAttribute("Enter value:", Double.class).replace(",", "."));
+            int topSpeed = Integer.parseInt(addAttribute("Enter topSpeed:", Integer.class));
+            boolean unUsed = Boolean.parseBoolean(addAttribute("Is the car new? true/false:", Boolean.class));
             Auto newCar = new Auto(brand, model, id, value, topSpeed, unUsed);
             data.addCar(newCar);
             backToMenu("Car added.");
@@ -91,8 +88,7 @@ public class UserInterface {
 
 
     public static void menuSearchString(String category){
-        System.out.println("Enter " + category + " to look for:");
-        String searchString = sc.nextLine().toLowerCase();
+        String searchString = addAttribute("Enter " + category + " to look for:", String.class).toLowerCase();
         Auto[] cars = data.returnSearchStringArray(category, searchString);
         int foundCars = printCarArray(cars);
         if (foundCars == 0){
@@ -104,8 +100,8 @@ public class UserInterface {
     }
 
     public static void menuSearchInt(String category){
-        int minInt = Integer.parseInt(addAttribute("Enter minimum:", int.class));
-        int maxInt = Integer.parseInt(addAttribute("Enter maximum:", int.class));
+        int minInt = Integer.parseInt(addAttribute("Enter minimum:", Integer.class));
+        int maxInt = Integer.parseInt(addAttribute("Enter maximum:", Integer.class));
         Auto[] cars = data.returnSearchIntArray(category, minInt, maxInt);
         int foundCars = printCarArray(cars);
         if (foundCars == 0){
@@ -173,9 +169,9 @@ public class UserInterface {
     public static String addAttribute(String sysoBegin, Class<?> type) {
         System.out.println(sysoBegin);
         String value = sc.nextLine();
-        if (type.equals(double.class)) value = value.replace(".", ",");
+        if (type.equals(Double.class)) value = value.replace(".", ",");
         while (!checkDatatype(type, value)) {
-            System.out.println("Value must be a " + type + ". Try again!");
+            System.out.println("Value must be a " + type.getSimpleName() + ". Try again!");
             value = sc.nextLine();
         }
         return value;
@@ -184,12 +180,14 @@ public class UserInterface {
     public static boolean checkDatatype(Class<?> type, String value) {
         Scanner checkscan = new Scanner(value);
         boolean result = false;
-        if (type.equals(int.class)) {
+        if (type.equals(Integer.class)) {
             result = checkscan.hasNextInt();
-        } else if (type.equals(boolean.class)) {
+        } else if (type.equals(Boolean.class)) {
             result = checkscan.hasNextBoolean();
-        } else if (type.equals(double.class)) {
+        } else if (type.equals(Double.class)) {
             result = checkscan.hasNextDouble();
+        } else if(type.equals(String.class)){
+            result = !value.isEmpty();
         }
         checkscan.close();
         return result;
