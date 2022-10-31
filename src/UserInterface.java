@@ -97,8 +97,14 @@ public class UserInterface {
     }
 
     public static void menuSearchInt(String category) {
+        int maxInt;
         int minInt = Integer.parseInt(addAttribute("Enter minimum:", Integer.class));
-        int maxInt = Integer.parseInt(addAttribute("Enter maximum:", Integer.class));
+        do {
+            maxInt = Integer.parseInt(addAttribute("Enter maximum:", Integer.class));
+            if (maxInt <= minInt){
+                System.out.println("The maximum needs to be bigger than the minimum (" + minInt + ")");
+            }
+        } while (maxInt <= minInt);
         Auto[] cars = data.returnSearchIntArray(category, minInt, maxInt);
         int foundCars = printCarArray(cars);
         if (foundCars == 0) {
