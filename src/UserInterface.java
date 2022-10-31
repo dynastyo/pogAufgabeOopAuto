@@ -43,8 +43,8 @@ public class UserInterface {
             String brand = addAttribute("Enter brand:", String.class);
             String model = addAttribute("Enter model:", String.class);
             // added replace -> , and . can be used as a seperator
-            double value = Double.parseDouble(addAttribute("Enter value:", Double.class).replace(",", "."));
-            int topSpeed = Integer.parseInt(addAttribute("Enter topSpeed:", Integer.class));
+            double value = Double.parseDouble(addAttribute("Enter value in USD:", Double.class).replace(",", "."));
+            int topSpeed = Integer.parseInt(addAttribute("Enter topSpeed in MPH:", Integer.class));
             boolean unUsed = Boolean.parseBoolean(addAttribute("Is the car new? true/false:", Boolean.class));
             Auto newCar = new Auto(brand, model, id, value, topSpeed, unUsed);
             data.addCar(newCar);
@@ -140,7 +140,15 @@ public class UserInterface {
     }
 
     public static void printCar(Auto car) {
-        System.out.printf("-------------\nID:\t\t\t%s\nBrand:\t\t%s\nModel:\t\t%s\nValue:\t\t%.2f USD\nTop Speed:\t%d MPH\nNew:\t\t%b%n", car.getId(), car.getBrand(), car.getModel(), car.getValue(), car.getTopSpeed(), car.isUnUsed());
+        System.out.printf("""
+                        -------------
+                        ID:\t\t\t%s
+                        Brand:\t\t%s
+                        Model:\t\t%s
+                        Value:\t\t%.2f USD
+                        Top Speed:\t%d MPH
+                        New:\t\t%b%n""",
+                        car.getId(), car.getBrand(), car.getModel(), car.getValue(), car.getTopSpeed(), car.isUnUsed());
     }
 
     public static int printCarArray(Auto[] cars) {
@@ -162,7 +170,6 @@ public class UserInterface {
     public static String addAttribute(String soutBegin, Class<?> type) {
         System.out.println(soutBegin);
         String value = sc.nextLine();
-        if (type.equals(Double.class)) value = value.replace(".", ",");
         while (!checkDatatype(type, value)) {
             System.out.println("Value must be a " + type.getSimpleName() + ". Try again!");
             value = sc.nextLine();
